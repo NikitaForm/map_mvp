@@ -3,11 +3,7 @@ import './App.css'
 import PolygonDrawingMap from './Map.tsx';
 
 function App() {
-  return (
-    <>
-        <PolygonDrawingMap/>
-    </>
-  )
+  return (<PolygonDrawingMap/>)
 }
 
 export default App
