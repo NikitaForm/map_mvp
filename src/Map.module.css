@@ -1,0 +1,241 @@
+
+.container {
+    display: flex;
+    height: 100vh;
+    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, 'sans-serif';
+}
+
+.sidebar {
+    width: 320px;
+    background-color: #1f2937;
+    color: white;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    margin-top: 0;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    margin-top: 0;
+}
+
+.button {
+    width: 100%;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.primaryButton {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.warningButton {
+    background-color: #ca8a04;
+    color: white;
+}
+
+.successButton {
+    background-color: #16a34a;
+    color: white;
+}
+
+.dangerButton {
+    background-color: #dc2626;
+    color: white;
+}
+
+.disabledButton {
+    background-color: #4b5563;
+    cursor: not-allowed;
+    opacity: 0.6
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.buttonText {
+    display: inline;
+}
+
+.infoText {
+    font-size: 14px;
+    color: #d1d5db;
+    margin-bottom: 8px;
+}
+
+.listHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.deleteAllButton {
+    color: #f87171;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.emptyState {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.polygonList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.polygonCard {
+    background-color: #374151;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.polygonHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.polygonInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.colorBox {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.polygonTitle {
+    font-weight: 500;
+}
+
+.deleteButton {
+    color: #f87171;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.polygonDetails {
+    font-size: 14px;
+    color: #d1d5db;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.infoSection {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #4b5563;
+}
+
+.infoTitle {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.infoList {
+    font-size: 12px;
+    color: #d1d5db;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mapContainer {
+    flex: 1;
+    width: 600px;
+    position: relative;
+}
+
+.map {
+    height: 100%;
+    width: 100%;
+}
+
+.drawingIndicator {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.indicatorContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pulseCircle {
+    width: 12px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+}

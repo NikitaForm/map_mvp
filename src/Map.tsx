@@ -3,6 +3,7 @@ import * as React from 'react';
 import { MapContainer, TileLayer, Polygon, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Trash2, Undo, Save, Edit3 } from 'lucide-react';
+import styles from './Map.module.css';
 
 // Component to handle map clicks for drawing
 function DrawingHandler({isDrawing, onAddPoint}) {
@@ -29,7 +30,7 @@ export default function PolygonDrawingMap() {
     const [selectedPolygon, setSelectedPolygon] = useState(null);
     const mapRef = useRef(null);
 
-    const center = [51.505, -0.09]; // Default center (London)
+    const center: [number, number] = [51.505, -0.09]; // Default center (London)
 
     const startDrawing = () => {
         setIsDrawing(true);
@@ -116,7 +117,7 @@ export default function PolygonDrawingMap() {
     };
 
     return (
-        <div style={styles.container}>
+        <div className={styles.container}>
             <style>{`
         .polygon-card {
           transition: all 0.3s ease;
@@ -134,51 +135,49 @@ export default function PolygonDrawingMap() {
       `}</style>
 
             {/* Sidebar */}
-            <div style={styles.sidebar}>
-                <h1 style={styles.title}>Polygon Drawing Tool</h1>
+            <div className={styles.sidebar}>
+                <h1 className={styles.title}>Polygon Drawing Tool</h1>
 
                 {/* Drawing Controls */}
-                <div style={styles.section}>
-                    <h2 style={styles.sectionTitle}>Drawing Controls</h2>
+                <div className={styles.section}>
+                    <h2 className={styles.sectionTitle}>Drawing Controls</h2>
 
                     {!isDrawing ? (
-                        <button onClick={startDrawing} style={styles.primaryButton}>
+                        <button onClick={startDrawing} className={styles.primaryButton}>
                             <Edit3 size={18}/>
-                            <span style={styles.buttonText}>Start Drawing</span>
+                            <span className={styles.buttonText}>Start Drawing</span>
                         </button>
                     ) : (
-                        <div style={styles.buttonGroup}>
-                            <div style={styles.infoText}>
+                        <div className={styles.buttonGroup}>
+                            <div className={styles.infoText}>
                                 Click on the map to add points ({currentPoints.length} points)
                             </div>
 
                             <button
                                 onClick={undoLastPoint}
                                 disabled={currentPoints.length === 0}
-                                style={{
-                                    ...styles.button,
-                                    ...styles.warningButton,
-                                    ...(currentPoints.length === 0 ? styles.disabledButton : {})
-                                }}
+                                className={`${styles.button}
+                                    ${styles.warningButton}
+                                    ${currentPoints.length === 0 ? styles.disabledButton : ''}
+                                `}
                             >
                                 <Undo size={18}/>
-                                <span style={styles.buttonText}>Undo Last Point</span>
+                                <span className={styles.buttonText}>Undo Last Point</span>
                             </button>
 
                             <button
                                 onClick={finishPolygon}
                                 disabled={currentPoints.length < 3}
-                                style={{
-                                    ...styles.button,
-                                    ...styles.successButton,
-                                    ...(currentPoints.length < 3 ? styles.disabledButton : {})
-                                }}
+                                className={`${styles.button}
+                                    ${styles.successButton}
+                                    ${currentPoints.length < 3 ? styles.disabledButton : ''}`
+                                }
                             >
                                 <Save size={18}/>
-                                <span style={styles.buttonText}>Finish Polygon</span>
+                                <span className={styles.buttonText}>Finish Polygon</span>
                             </button>
 
-                            <button onClick={cancelDrawing} style={{...styles.button, ...styles.dangerButton}}>
+                            <button onClick={cancelDrawing} className={`${styles.button} ${styles.dangerButton}`}>
                                 Cancel
                             </button>
                         </div>
@@ -187,48 +186,46 @@ export default function PolygonDrawingMap() {
 
                 {/* Polygons List */}
                 <div>
-                    <div style={styles.listHeader}>
-                        <h2 style={styles.sectionTitle}>Polygons ({polygons.length})</h2>
+                    <div className={styles.listHeader}>
+                        <h2 className={styles.sectionTitle}>Polygons ({polygons.length})</h2>
                         {polygons.length > 0 && (
-                            <button onClick={deleteAllPolygons} style={styles.deleteAllButton}>
+                            <button onClick={deleteAllPolygons} className={styles.deleteAllButton}>
                                 Delete All
                             </button>
                         )}
                     </div>
 
                     {polygons.length === 0 ? (
-                        <div style={styles.emptyState}>No polygons yet. Start drawing!</div>
+                        <div className={styles.emptyState}>No polygons yet. Start drawing!</div>
                     ) : (
-                        <div style={styles.polygonList}>
+                        <div className={styles.polygonList}>
                             {polygons.map((polygon) => (
                                 <div
                                     key={polygon.id}
-                                    className={`polygon-card ${selectedPolygon === polygon.id ? 'selected' : ''}`}
-                                    style={styles.polygonCard}
+                                    className={`polygon-card ${styles.polygonCard} ${selectedPolygon === polygon.id ? 'selected' : ''}`}
                                     onClick={() => setSelectedPolygon(polygon.id)}
                                 >
-                                    <div style={styles.polygonHeader}>
-                                        <div style={styles.polygonInfo}>
-                                            <div
+                                    <div className={styles.polygonHeader}>
+                                        <div className={styles.polygonInfo}>
+                                            <div className={styles.colorBox}
                                                 style={{
-                                                    ...styles.colorBox,
                                                     backgroundColor: polygon.color
                                                 }}
                                             />
-                                            <span style={styles.polygonTitle}>Polygon #{polygon.id}</span>
+                                            <span className={styles.polygonTitle}>Polygon #{polygon.id}</span>
                                         </div>
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 deletePolygon(polygon.id);
                                             }}
-                                            style={styles.deleteButton}
+                                            className={styles.deleteButton}
                                         >
                                             <Trash2 size={16}/>
                                         </button>
                                     </div>
 
-                                    <div style={styles.polygonDetails}>
+                                    <div className={styles.polygonDetails}>
                                         <div>Points: {polygon.points.length}</div>
                                         <div>Area: {formatArea(calculateArea(polygon.points))}</div>
                                     </div>
@@ -237,9 +234,9 @@ export default function PolygonDrawingMap() {
                         </div>
                     )}
                 </div>
-                {selectedPolygon && <div style={styles.infoSection}>
-                    <h3 style={styles.infoTitle}>Selected polygon details:</h3>
-                    <ul style={styles.infoList}>
+                {selectedPolygon && <div className={styles.infoSection}>
+                    <h3 className={styles.infoTitle}>Selected polygon details:</h3>
+                    <ul className={styles.infoList}>
                         {polygons.find(pol => pol.id === selectedPolygon)?.points?.map((p, i) => {
                             return <li key={i}>[{p[0].toFixed(5)}, {p[1].toFixed(5)}]</li>
                         })}
@@ -247,9 +244,9 @@ export default function PolygonDrawingMap() {
                 </div>}
 
                 {/* Info */}
-                <div style={styles.infoSection}>
-                    <h3 style={styles.infoTitle}>How to use:</h3>
-                    <ul style={styles.infoList}>
+                <div className={styles.infoSection}>
+                    <h3 className={styles.infoTitle}>How to use:</h3>
+                    <ul className={styles.infoList}>
                         <li>• Click "Start Drawing" to begin</li>
                         <li>• Click on the map to add points</li>
                         <li>• Use "Undo" to remove last point</li>
@@ -260,11 +257,11 @@ export default function PolygonDrawingMap() {
             </div>
 
             {/* Map */}
-            <div style={styles.mapContainer}>
+            <div className={styles.mapContainer}>
                 <MapContainer
                     center={center}
                     zoom={13}
-                    style={styles.map}
+                    className={styles.map}
                     ref={mapRef}
                 >
                     <ChangeView
@@ -315,9 +312,9 @@ export default function PolygonDrawingMap() {
 
                 {/* Drawing indicator */}
                 {isDrawing && (
-                    <div style={styles.drawingIndicator}>
-                        <div style={styles.indicatorContent}>
-                            <div className="pulse" style={styles.pulseCircle}/>
+                    <div className={styles.drawingIndicator}>
+                        <div className={styles.indicatorContent}>
+                            <div className={`pulse ${styles.pulseCircle}`}/>
                             Drawing mode active - Click on the map to add points
                         </div>
                     </div>
@@ -326,215 +323,3 @@ export default function PolygonDrawingMap() {
         </div>
     );
 }
-
-const styles = {
-    container: {
-        display: 'flex',
-        height: '100vh',
-        width: '100wh',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-    },
-    sidebar: {
-        width: '320px',
-        backgroundColor: '#1f2937',
-        color: 'white',
-        padding: '16px',
-        overflowY: 'auto'
-    },
-    title: {
-        fontSize: '24px',
-        fontWeight: 'bold',
-        marginBottom: '24px',
-        marginTop: 0
-    },
-    section: {
-        marginBottom: '24px'
-    },
-    sectionTitle: {
-        fontSize: '18px',
-        fontWeight: '600',
-        marginBottom: '12px',
-        marginTop: 0
-    },
-    button: {
-        width: '100%',
-        fontWeight: '500',
-        padding: '8px 16px',
-        borderRadius: '6px',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        fontSize: '14px',
-        transition: 'background-color 0.2s'
-    },
-    primaryButton: {
-        width: '100%',
-        backgroundColor: '#2563eb',
-        color: 'white',
-        fontWeight: '500',
-        padding: '8px 16px',
-        borderRadius: '6px',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        fontSize: '14px',
-        transition: 'background-color 0.2s'
-    },
-    warningButton: {
-        backgroundColor: '#ca8a04',
-        color: 'white'
-    },
-    successButton: {
-        backgroundColor: '#16a34a',
-        color: 'white'
-    },
-    dangerButton: {
-        backgroundColor: '#dc2626',
-        color: 'white'
-    },
-    disabledButton: {
-        backgroundColor: '#4b5563',
-        cursor: 'not-allowed',
-        opacity: 0.6
-    },
-    buttonGroup: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    buttonText: {
-        display: 'inline'
-    },
-    infoText: {
-        fontSize: '14px',
-        color: '#d1d5db',
-        marginBottom: '8px'
-    },
-    listHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '12px'
-    },
-    deleteAllButton: {
-        color: '#f87171',
-        backgroundColor: 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        fontSize: '14px',
-        padding: '4px 8px',
-        borderRadius: '4px',
-        transition: 'color 0.2s'
-    },
-    emptyState: {
-        color: '#9ca3af',
-        fontSize: '14px'
-    },
-    polygonList: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    polygonCard: {
-        backgroundColor: '#374151',
-        padding: '12px',
-        borderRadius: '6px',
-        cursor: 'pointer'
-    },
-    polygonHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: '8px'
-    },
-    polygonInfo: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-    },
-    colorBox: {
-        width: '16px',
-        height: '16px',
-        borderRadius: '4px'
-    },
-    polygonTitle: {
-        fontWeight: '500'
-    },
-    deleteButton: {
-        color: '#f87171',
-        backgroundColor: 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        padding: '4px',
-        borderRadius: '4px',
-        display: 'flex',
-        alignItems: 'center',
-        transition: 'color 0.2s'
-    },
-    polygonDetails: {
-        fontSize: '14px',
-        color: '#d1d5db',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '4px'
-    },
-    infoSection: {
-        marginTop: '24px',
-        paddingTop: '24px',
-        borderTop: '1px solid #4b5563'
-    },
-    infoTitle: {
-        fontSize: '14px',
-        fontWeight: '600',
-        marginBottom: '8px',
-        marginTop: 0
-    },
-    infoList: {
-        fontSize: '12px',
-        color: '#d1d5db',
-        listStyle: 'none',
-        padding: 0,
-        margin: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '4px'
-    },
-    mapContainer: {
-        flex: 1,
-        width: '600px',
-        position: 'relative'
-    },
-    map: {
-        height: '100%',
-        width: '100%'
-    },
-    drawingIndicator: {
-        position: 'absolute',
-        top: '16px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        backgroundColor: '#2563eb',
-        color: 'white',
-        padding: '8px 16px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        zIndex: 1000
-    },
-    indicatorContent: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-    },
-    pulseCircle: {
-        width: '12px',
-        height: '8px',
-        backgroundColor: 'red',
-        borderRadius: '50%'
-    }
-};
